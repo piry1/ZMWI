@@ -38,7 +38,7 @@ for i=1:2
 
         k = mismatchError(labelsKNN, Y2);
         fprintf('KNN - s¹siedzi: %d\n', nk);
-        disp(k);
+        disp(k.ClasError);
     end
     % ********** NM ***********
 
@@ -47,7 +47,7 @@ for i=1:2
     
     k = mismatchError(labelsNM, Y2);
     disp('NM:');
-    disp(k);
+    disp(k.ClasError);
 end
 % ********** wyniki **********
 % 
