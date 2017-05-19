@@ -9,6 +9,6 @@ for i=1:len
     end
 end
 
-    error = errCount / len; 
+    error = (errCount / len) * 100; 
     
 end
