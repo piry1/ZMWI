@@ -1,6 +1,8 @@
 clc;    % Czyszczenie konsoli
 clear;  % Usuwanie danych
 addpath('./klasyfikatorNM');
+addpath('./obliczanieBledu');
+addpath('./normalizacja');
 
 data = csvread('./dane/data.csv');
 
