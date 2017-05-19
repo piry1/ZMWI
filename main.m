@@ -1,3 +1,7 @@
+%**************************************************************************
+%                   Ustawienia skryptu
+%**************************************************************************
+
 clc;    % Czyszczenie konsoli
 clear;  % Usuwanie danych
 addpath('./klasyfikatorNM');
@@ -5,19 +9,22 @@ addpath('./obliczanieBledu');
 addpath('./normalizacja');
 addpath('./dzielenieZbioru');
 
-data = csvread('./dane/data.csv');
+%**************************************************************************
+%                   Przygotowanie danych
+%**************************************************************************
+
+data = csvread('./dane/data.csv'); % wczytywanie danych
 
 dataXLength = length(data(1,:));
-
 Xdata = data( : , 1:(dataXLength-1) );      % macierz danych 
 Ydata = data( : , dataXLength );            % wektor klasyfikacji
 [X1, Y1, X2, Y2] = SplitData(Xdata, Ydata); % dzielenie na 2 losowe czêœci
 
-Xunorm = data( : , 1:(dataXLength-1) );  
+%**************************************************************************
+%                   Klasyfikacja
+%**************************************************************************
                    
 for i=1:2
-    x1=[];
-    x2=[];
     
     if( i == 1 )
         x1=X1;
@@ -32,27 +39,14 @@ for i=1:2
     % ********** KNN **********
     
     for nk = [1 3]
-        mdlKNN = fitcknn(x1,Y1);
-        mdlKNN.NumNeighbors = nk;
-        labelsKNN = predict(mdlKNN, x2);
-
-        k = mismatchError(labelsKNN, Y2);
+        k = KNN(x1, Y1, x2, Y2, nk);
         fprintf('KNN - s¹siedzi: %d\n', nk);
         disp(k.ClasError);
     end
     % ********** NM ***********
 
-    mdlNM = fitNM(x1,Y1);
-    labelsNM = predictNM(mdlNM, x2);
+    k = NM(x1, Y1, x2, Y2);
     
-    k = mismatchError(labelsNM, Y2);
     disp('NM:');
     disp(k.ClasError);
 end
-% ********** wyniki **********
-% 
-% disp('Wyniki klasyfikacji');
-% disp('KNN:');
-% disp(labelsKNN');
-% disp('NM:');
-% disp(labelsNM');
