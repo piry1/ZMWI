@@ -30,22 +30,23 @@ for i=1:2
     end
     
     % ********** KNN **********
-
-    mdlKNN = fitcknn(x1,Y1);
-    mdlKNN.NumNeighbors = 3;
-    labelsKNN = predict(mdlKNN, x2);
-
-    k = mismatchError(labelsKNN, Y2);
-    disp('knn:');
-    disp(k);
     
+    for nk = [1 3]
+        mdlKNN = fitcknn(x1,Y1);
+        mdlKNN.NumNeighbors = nk;
+        labelsKNN = predict(mdlKNN, x2);
+
+        k = mismatchError(labelsKNN, Y2);
+        fprintf('KNN - s¹siedzi: %d\n', nk);
+        disp(k);
+    end
     % ********** NM ***********
 
     mdlNM = fitNM(x1,Y1);
     labelsNM = predictNM(mdlNM, x2);
     
     k = mismatchError(labelsNM, Y2);
-    disp('nm:');
+    disp('NM:');
     disp(k);
 end
 % ********** wyniki **********
