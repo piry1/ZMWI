@@ -1,14 +1,12 @@
 function [ error ] = mismatchError( results, labels )
 
-len = length(labels);
-errCount = 0;
+    error = ClassificationError;
+    len = length(labels);
 
-for i=1:len
-    if(results(i) ~= labels(i))
-        errCount = errCount +1;
-    end
-end
-
-    error = (errCount / len) * 100; 
-    
+    error.ConfM = confusionmat(labels, results);
+    error.Match = sum(diag(error.ConfM));
+    error.Mismatch = len - error.Match;
+    error.ClasQuality = (sum(diag(error.ConfM))/length(labels)) * 100;
+    error.ClasError = ((length(labels) - sum(diag(error.ConfM)))/length(labels)) * 100;
+   
 end
