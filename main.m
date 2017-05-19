@@ -12,12 +12,17 @@ Y = data( : , dataXLength );        % wektor klasyfikacji
 % ********** KNN **********
 
 mdl = fitcknn(X,Y);
+mdl.NumNeighbors = 3;
 labelsKNN = predict(mdl,X(460:475,:));
+
+mismatchError(labelsKNN, Y(460:475))
 
 % ********** NM ***********
 
 mdlNM = fitNM(X,Y);
 labelsNM = predictNM(mdlNM, X(460:475,:));
+
+mismatchError(labelsNM, Y(460:475))
 
 % ********** wyniki **********
 
